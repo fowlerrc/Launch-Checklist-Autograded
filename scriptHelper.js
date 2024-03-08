@@ -35,42 +35,46 @@ function validateInput(testInput) {
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
     if (validateInput(pilot) == "Empty" || validateInput(copilot) == "Empty" || validateInput(fuelLevel) == "Empty" || validateInput(cargoLevel) == "Empty") {
-        // alert("All Inputs Are Required")
+        // window.alert("All Inputs Are Required")
     }
-    if (validateInput(pilot) !== "Not a Number" || validateInput(copilot) !== "Not a Number") {
-        // alert("Pilot and Copilot Inputs CANNOT Be Numbers")
+    else if (validateInput(pilot) !== "Not a Number" || validateInput(copilot) !== "Not a Number") {
+        // window.alert("Pilot and Copilot Inputs CANNOT Be Numbers")
     }
-    if (validateInput(fuelLevel) !== "Is a Number" || validateInput(cargoLevel) !== "Is a Number") {
-        // alert("Fuel Levels and Cargo Levels MUST Be Numbers")
+    else if (validateInput(fuelLevel) !== "Is a Number" || validateInput(cargoLevel) !== "Is a Number") {
+    //   window.alert("Fuel Levels and Cargo Levels MUST Be Numbers")
     }
+    else {
+        list.style.visibility = "visible"
+        const pilotStatus = document.getElementById("pilotStatus")
+        const copilotStatus = document.getElementById("copilotStatus")
+        const fuelStatus = document.getElementById("fuelStatus")
+        const cargoStatus = document.getElementById("cargoStatus")
+        const launchStatus = document.getElementById("launchStatus")
 
-    const pilotStatus = document.getElementById("pilotStatus")
-    const copilotStatus = document.getElementById("copilotStatus")
-    const fuelStatus = document.getElementById("fuelStatus")
-    const cargoStatus = document.getElementById("cargoStatus")
-    const launchStatus = document.getElementById("launchStatus")
+        pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`
+        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`
+        // list.style.visibility = "hidden"
 
-    pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`
-    copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`
-    list.style.visibility = "hidden"
+        fuelStatus.innerHTML = "Fuel level high enough for launch"
+        cargoStatus.innerHTML = "Cargo mass low enough for launch"
+        launchStatus.innerHTML = "Shuttle is Ready for Launch"
+        launchStatus.style.color = "green"
 
-    fuelStatus.innerHTML = "Fuel level high enough for launch"
-    cargoStatus.innerHTML = "Cargo mass low enough for launch"
-    launchStatus.innerHTML = "Shuttle is Ready for Launch"
-    launchStatus.style.color = "green"
+        if (Number(fuelLevel) < 10000) {
+            list.style.visibility = "visible"
+            fuelStatus.innerHTML = "Fuel level too low for launch"
+            launchStatus.innerHTML = "Shuttle Not Ready for Launch"
+            launchStatus.style.color = "red"
+        }
+        if (Number(cargoLevel) > 10000) {
+            list.style.visibility = "visible"
+            cargoStatus.innerHTML = "Cargo mass too heavy for launch"
+            launchStatus.innerHTML = "Shuttle Not Ready for Launch"
+            launchStatus.style.color = "red"
+        }
 
-    if (Number(fuelLevel) < 10000) {
-        fuelStatus.innerHTML = "Fuel level too low for launch"
-        launchStatus.innerHTML = "Shuttle Not Ready for Launch"
-        launchStatus.style.color = "red"
+        // list.style.visibility = "visible"
     }
-     if (Number(cargoLevel) > 10000) {
-        cargoStatus.innerHTML = "Cargo mass too heavy for launch"
-        launchStatus.innerHTML = "Shuttle Not Ready for Launch"
-        launchStatus.style.color = "red"
-    }
-
-    list.style.visibility = "visible"
 }
 
 async function myFetch() {
@@ -84,7 +88,7 @@ async function myFetch() {
 }
 
 function pickPlanet(planets) {
-    let randomIndex = parseInt(Math.random()*planets.length)
+    let randomIndex = parseInt(Math.random() * planets.length)
     return planets[randomIndex]
 }
 
